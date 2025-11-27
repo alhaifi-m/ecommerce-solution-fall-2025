@@ -5,13 +5,13 @@ import { useCart } from '../context/cart-context';
 import { CartIconProps } from '@/types'
 
 
-const CartIcon = (props: CartIconProps = {color:"#333", size:24}) => {
+const CartIcon = (props: CartIconProps = {color:"#333", size:30}) => {
     const router = useRouter();
     const { getItemCount } = useCart();
     const itemCount = getItemCount();
   return (
     <TouchableOpacity style={styles.container} onPress={() => router.push({ pathname: '/cart' } as any)} activeOpacity={0.7}>
-        <Ionicons name="cart-outline" size={props.size} color={props.color} />
+        <Ionicons name="cart-outline" size={24} color={props.color} />
         {
             itemCount > 0 && (
                 <View style={styles.badge}>
@@ -20,7 +20,6 @@ const CartIcon = (props: CartIconProps = {color:"#333", size:24}) => {
                 </View>
             )
         }
-      <Text>CartIcon</Text>
     </TouchableOpacity>
   )
 }

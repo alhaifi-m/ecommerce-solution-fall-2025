@@ -5,7 +5,7 @@ import {
   CartProviderProps,
   Product,
 } from "@/types";
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, use } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Create the Cart Context
@@ -70,4 +70,63 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     const removeItem = (porductId: number)=> {
         setItems((prevItems) => prevItems.filter(item => item.product.id !== porductId))
     }
+
+    // Function to update the quantity of a specific item in the cart
+    const updateQuantity = (productId: number, quantity: number) => {
+       if(quantity <= 0){
+        removeItem(productId);
+        return
+       }
+       setItems((prevItems) =>
+         prevItems.map((item) =>
+           item.product.id === productId ? { ...item, quantity } : item
+         )
+       );
+     }
+
+     // function to clear the cart
+     const clearCart = () => {
+        setItems([]);
+     }
+
+     // Function to get the total number of items in the cart
+     const getItemCount = () => {
+        return items.reduce((total, item) => total + item.quantity, 0);
+     }
+
+      // Function to get the total price of items in the cart
+     const getTotal = () => {
+        return items.reduce((total, item) => total + item.product.price * item.quantity, 0);
+     }
+
+     return (
+    <CartContext.Provider
+      value={{
+        items,
+        addItem,
+        removeItem,
+        updateQuantity,
+        clearCart,
+        getItemCount,
+        getTotal,
+      }}
+    >
+      {children}
+    </CartContext.Provider>
+     )
+
+
 };
+
+
+
+// Custom hook to use the Cart Context
+
+
+export const useCart = () => {
+  const context = useContext(CartContext);
+  if( context === undefined ){
+    throw new Error("useCart must be used within a CartProvider");
+  }
+  return context;
+}

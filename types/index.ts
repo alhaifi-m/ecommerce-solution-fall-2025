@@ -36,3 +36,15 @@ export interface CartContextType {
 export interface CartProviderProps {
     children: ReactNode
 }
+
+export interface CategoryPillProps {
+    categories: string[]
+    onSelectCategory: (category: string) => void
+    selectedCategory?: string | null
+}
+
+export interface SearchBarProps {
+    placeholder?: string
+    onSearch?: (query: string) => void
+    initialValue?: string
+}

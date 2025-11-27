@@ -48,3 +48,14 @@ export interface SearchBarProps {
     onSearch?: (query: string) => void
     initialValue?: string
 }
+export interface ProductCardProps {
+    product: Product
+    onPress?: () => void
+    style?: object
+}
+
+export interface ProductCarouselProps {
+    products: Product[]
+  title?: string
+  style?: object
+}

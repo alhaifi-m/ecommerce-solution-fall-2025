@@ -5,7 +5,8 @@ import CartIcon from "@/components/cart-icon";
 import type { Product } from "@/types";
 import { router, Stack } from "expo-router";
 import CategoryPill from "@/components/category-pill";
-import { HeaderTitle } from "@react-navigation/elements";
+import SearchBar from "@/components/search-bar";
+import ProductCarousel from "@/components/product-carousel";
 
 
 
@@ -76,17 +77,58 @@ export default function Index() {
       <View
         style={styles.container}
       >
-        <CategoryPill
-          categories={categories}
-          onSelectCategory={handleCategorySelect}
-          selectedCategory={selectedCategory}
+        <SearchBar
+          onSearch={(query) => {
+            if (query.trim()) {
+              router.push({
+                pathname: "/product-listing",
+                params: { query }
+              })
+            }
+          }}
         />
+        <ProductCarousel
+          products={featuredProducts}
+          title="Featured Products"
+          style={{ marginBottom: 16 }}
+        />
+        <View style={{ maxHeight: 80 }}>
+          <CategoryPill
+            categories={categories}
+            onSelectCategory={handleCategorySelect}
+            selectedCategory={selectedCategory}
+          />
+        </View>
+        <View style={styles.categoryProductContainer}>
+          {
+            categoryProducts.length > 0 ? (
+              <ProductCarousel
+                products={categoryProducts}
+                title={selectedCategory ? `Product in ${selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)}` : "All Products"}
+              />
+            ) : (
+              <Text style={styles.noProductsText}>No products found in this category.</Text>
+            )
+          }
+        </View>
+
       </View>
     </>
   );
 }
 const styles = StyleSheet.create({
   container: {
-
+    flex: 1,
+    backgroundColor: '#f9f9f9',
+    paddingHorizontal: 16,
+    paddingTop: 16,
   },
+  categoryProductContainer: {
+    marginTop: 8,
+  },
+  noProductsText: {
+    textAlign: 'center',
+    color: '#888',
+    marginTop: 20,
+  }
 });

@@ -1,12 +1,12 @@
 import { StyleSheet, Text, ScrollView, TouchableOpacity } from "react-native";
-import { CategoryPillsProps } from "@/types";
+import { CategoryPillProps } from "@/types";
 import React from "react";
 
 const CategoryPills = ({
   categories,
   selectedCategory,
   onSelectCategory,
-}: CategoryPillsProps) => {
+}: CategoryPillProps) => {
   return (
     <ScrollView
       horizontal
